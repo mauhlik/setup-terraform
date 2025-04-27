@@ -56,7 +56,7 @@ jobs:
 
       - name: Check installed version with version file
         run: |
-          TERRAFORM_VERSION_FILE_VERSION=$(cat test/.terraform-version)
+          TERRAFORM_VERSION_FILE_VERSION=$(cat .terraform-version)
           if [[ "${INSTALLED_VERSION}" != "${TERRAFORM_VERSION_FILE_VERSION}" ]]; then
             echo "Installed version (${INSTALLED_VERSION}) does not match version file (${TERRAFORM_VERSION_FILE_VERSION})"
             exit 1
