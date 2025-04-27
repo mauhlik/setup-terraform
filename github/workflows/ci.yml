@@ -1,0 +1,37 @@
+name: Continuous Integration
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  test-action:
+    name: GitHub Actions Test with Version File
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout
+        id: checkout
+        uses: actions/checkout@v4
+
+      - name: Test Local Action with Version File
+        id: test-action-01
+        uses: ./
+        with:
+          terraform-version-file: 'test/.terraform-version'
+
+      - name: Check installed version with version file
+        run: |
+          TERRAFORM_VERSION_FILE_VERSION=$(cat test/.terraform-version)
+          if [[ "${INSTALLED_VERSION}" != "${TERRAFORM_VERSION_FILE_VERSION}" ]]; then
+            echo "Installed version (${INSTALLED_VERSION}) does not match version file (${TERRAFORM_VERSION_FILE_VERSION})"
+            exit 1
+          fi
+        env:
+          INSTALLED_VERSION: ${{ steps.test-action-01.outputs.version }}
