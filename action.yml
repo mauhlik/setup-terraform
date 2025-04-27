@@ -27,7 +27,7 @@ inputs:
 outputs:
   version:
     description: 'The version of Terraform CLI that was installed.'
-    value: ${{ steps.setup-terraform.outputs.version }}
+    value: ${{ steps.select-terraform-version.outputs.version }}
 runs:
   using: 'composite'
   steps:
