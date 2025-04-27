@@ -14,7 +14,7 @@ permissions:
 jobs:
   test-action:
     name: GitHub Actions Test with Version File
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
       - name: Checkout
         id: checkout
