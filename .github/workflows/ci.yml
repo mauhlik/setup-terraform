@@ -35,3 +35,31 @@ jobs:
           fi
         env:
           INSTALLED_VERSION: ${{ steps.test-action-01.outputs.version }}
+
+  test-action-working-directory:
+    name: GitHub Actions Test with Version File
+    runs-on: ubuntu-24.04
+    defaults:
+      run:
+        working-directory: test
+    steps:
+      - name: Checkout
+        id: checkout
+        uses: actions/checkout@v4
+
+      - name: Test Local Action with Version File
+        id: test-action-01
+        uses: ./
+        with:
+          terraform-version-file: '.terraform-version'
+          working-directory: test
+
+      - name: Check installed version with version file
+        run: |
+          TERRAFORM_VERSION_FILE_VERSION=$(cat .terraform-version)
+          if [[ "${INSTALLED_VERSION}" != "${TERRAFORM_VERSION_FILE_VERSION}" ]]; then
+            echo "Installed version (${INSTALLED_VERSION}) does not match version file (${TERRAFORM_VERSION_FILE_VERSION})"
+            exit 1
+          fi
+        env:
+          INSTALLED_VERSION: ${{ steps.test-action-01.outputs.version }}

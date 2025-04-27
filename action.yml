@@ -24,6 +24,10 @@ inputs:
     description: 'The path to a file containing the version of Terraform CLI to install. The file should contain a single line with the version string. This input takes precedence over the `terraform-version` input.'
     required: false
     default: ''
+  working-directory:
+    description: 'The working directory to run the action in. Defaults to the root of the repository.'
+    required: false
+    default: ${{ github.workspace }}
 outputs:
   version:
     description: 'The version of Terraform CLI that was installed.'
@@ -51,6 +55,7 @@ runs:
       env:
         TERRAFORM_VERSION_INPUT: ${{ inputs.terraform-version }}
         TERRAFORM_VERSION_FILE: ${{ inputs.terraform-version-file }}
+      working-directory: ${{ inputs.working-directory }}
 
     - name: Setup Terraform
       id: setup-terraform
