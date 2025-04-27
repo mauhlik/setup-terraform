@@ -1,5 +1,5 @@
 name: 'Setup Terraform'
-description: 'Wrapper around the HashiCorp Terraform Setup Action''
+description: 'Wrapper around the HashiCorp Terraform Setup Action'
 author: 'MaUhlik-cen56998'
 branding:
   icon: 'terminal'
@@ -27,7 +27,7 @@ inputs:
 outputs:
   version:
     description: 'The version of Terraform CLI that was installed.'
-    value: ${{ steps.setup-terraform.outputs.version }}
+    value: ${{ steps.select-terraform-version.outputs.version }}
 runs:
   using: 'composite'
   steps:
@@ -51,6 +51,7 @@ runs:
       env:
         TERRAFORM_VERSION_INPUT: ${{ inputs.terraform-version }}
         TERRAFORM_VERSION_FILE: ${{ inputs.terraform-version-file }}
+
     - name: Setup Terraform
       id: setup-terraform
       uses: hashicorp/setup-terraform@v3.1.1
